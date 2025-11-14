@@ -1249,7 +1249,8 @@
                         <li class="included">Priority support</li>
                     </ul>
 
-                    <button class="btn" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);" onclick="checkoutCoaching()">Contact for Coaching</button>
+                    <button class="btn" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);" onclick="checkoutCoaching()">Buy Now - $79</button>
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="redeemAccessCode()">Redeem Access Code</button>
                     <p style="text-align: center; color: #888; font-size: 0.85em; margin-top: 10px;">Trained at IMG Academy</p>
                 </div>
             </div>
@@ -1351,8 +1352,13 @@
         }
 
         function checkoutCoaching() {
-            // TODO: Add coaching tier Gumroad link when created
-            alert('🏋️ IMG Performance Coaching\n\n$79/month includes:\n- All Elite Tracker features\n- Monthly form check video reviews\n- Personalized program adjustments\n\nTo purchase:\n1. Create the Coaching product on Gumroad\n2. Give me the product link\n3. I\'ll integrate it here\n\nFor now, contact clockedwellness directly!');
+            // Redirect to Gumroad coaching payment page
+            window.open('https://digitalapple5.gumroad.com/l/zymcx', '_blank');
+
+            // Show redemption instructions
+            setTimeout(() => {
+                alert('🏋️ After completing payment:\n\n1. Gumroad will email you an ACCESS CODE\n2. Come back to this app\n3. Click "Redeem Access Code"\n4. Enter your code to unlock coaching!\n\nYou\'ll also receive instructions for:\n- Submitting form check videos\n- Monthly coaching schedule\n- Direct messaging access\n\nPayment is secure through Gumroad.');
+            }, 500);
         }
 
         function redeemAccessCode() {
