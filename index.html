@@ -730,6 +730,123 @@
             border-bottom: none;
         }
 
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .pricing-card {
+            background: #2d2d2d;
+            border-radius: 12px;
+            padding: 30px;
+            position: relative;
+            border: 2px solid #444;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+        }
+
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 700;
+        }
+
+        .pricing-tier {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .pricing-amount {
+            font-size: 3em;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .pricing-period {
+            color: #888;
+            margin-bottom: 25px;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 25px 0;
+            padding: 0;
+        }
+
+        .pricing-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #444;
+            color: #aaa;
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li.included {
+            color: #fff;
+        }
+
+        .pricing-features li.included::before {
+            content: "✓ ";
+            color: #4caf50;
+            font-weight: 700;
+            margin-right: 8px;
+        }
+
+        .pricing-features li.excluded::before {
+            content: "✗ ";
+            color: #666;
+            margin-right: 8px;
+        }
+
+        .paywall-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+
+        .paywall-content {
+            background: #2d2d2d;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .paywall-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -762,13 +879,14 @@
 
         <div class="tabs">
             <button class="tab active" onclick="switchTab('log')">Log Workout</button>
-            <button class="tab" onclick="switchTab('periodization')">Periodization</button>
+            <button class="tab" onclick="switchTab('periodization')">Periodization 🔒</button>
             <button class="tab" onclick="switchTab('calculator')">% Calculator</button>
-            <button class="tab" onclick="switchTab('nutrition')">Nutrition</button>
+            <button class="tab" onclick="switchTab('nutrition')">Nutrition 🔒</button>
             <button class="tab" onclick="switchTab('history')">History</button>
-            <button class="tab" onclick="switchTab('graphs')">Graphs</button>
+            <button class="tab" onclick="switchTab('graphs')">Graphs 🔒</button>
             <button class="tab" onclick="switchTab('calendar')">Calendar</button>
             <button class="tab" onclick="switchTab('stats')">Stats</button>
+            <button class="tab" onclick="switchTab('pricing')">Upgrade</button>
         </div>
 
         <!-- Log Workout Tab -->
@@ -1064,8 +1182,115 @@
                 </div>
             </div>
         </div>
+
+        <!-- Pricing Tab -->
+        <div id="pricing" class="tab-content">
+            <h2 style="margin-bottom: 10px;">Upgrade Your Training</h2>
+            <p style="color: #aaa; margin-bottom: 40px; text-align: center;">Built by an IMG Academy athlete for serious lifters. Track like a pro, train like an elite.</p>
+
+            <div class="pricing-grid">
+                <!-- Free Tier -->
+                <div class="pricing-card">
+                    <div class="pricing-tier">Free</div>
+                    <div class="pricing-amount">$0</div>
+                    <div class="pricing-period">Forever</div>
+
+                    <ul class="pricing-features">
+                        <li class="included">Basic workout logging</li>
+                        <li class="included">Training history</li>
+                        <li class="included">Calendar view</li>
+                        <li class="included">Personal records</li>
+                        <li class="included">Percentage calculator</li>
+                        <li class="excluded">6-month periodization</li>
+                        <li class="excluded">Nutrition tracking</li>
+                        <li class="excluded">Progress graphs</li>
+                        <li class="excluded">Advanced analytics</li>
+                    </ul>
+
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" disabled>Current Plan</button>
+                </div>
+
+                <!-- Premium Tier -->
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">MOST POPULAR</div>
+                    <div class="pricing-tier">Elite Tracker</div>
+                    <div class="pricing-amount">$14.99</div>
+                    <div class="pricing-period">per month</div>
+
+                    <ul class="pricing-features">
+                        <li class="included">Everything in Free</li>
+                        <li class="included">6-month periodization programs</li>
+                        <li class="included">Plate calculator</li>
+                        <li class="included">Nutrition tracker with macros</li>
+                        <li class="included">Goal progress tracking</li>
+                        <li class="included">Progressive overload analytics</li>
+                        <li class="included">Week-over-week comparisons</li>
+                        <li class="included">Advanced graphs & charts</li>
+                        <li class="included">Meet prep countdown</li>
+                        <li class="included">Unlimited data export</li>
+                    </ul>
+
+                    <button class="btn" style="width: 100%; margin-top: 20px;" onclick="checkoutPremium()">Start Premium</button>
+                    <p style="text-align: center; color: #888; font-size: 0.85em; margin-top: 10px;">or $119/year (save $60)</p>
+                </div>
+
+                <!-- Coaching Tier -->
+                <div class="pricing-card">
+                    <div class="pricing-tier">IMG Performance</div>
+                    <div class="pricing-amount">$79</div>
+                    <div class="pricing-period">per month</div>
+
+                    <ul class="pricing-features">
+                        <li class="included">Everything in Elite Tracker</li>
+                        <li class="included">Monthly form check video review</li>
+                        <li class="included">Squat / Bench / Deadlift analysis</li>
+                        <li class="included">Personalized program adjustments</li>
+                        <li class="included">Direct messaging & feedback</li>
+                        <li class="included">Priority support</li>
+                    </ul>
+
+                    <button class="btn" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);" onclick="checkoutCoaching()">Get Coaching</button>
+                    <p style="text-align: center; color: #888; font-size: 0.85em; margin-top: 10px;">Trained at IMG Academy</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 50px; padding: 30px; background: #1e1e1e; border-radius: 12px; border-left: 4px solid #667eea;">
+                <h3 style="margin-bottom: 15px;">Why Elite Tracker?</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 8px;">Built by Athletes</h4>
+                        <p style="color: #aaa; line-height: 1.6;">Created by an IMG Academy trained athlete with Olympic lifting experience. Real training, real results.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 8px;">Science-Based Programming</h4>
+                        <p style="color: #aaa; line-height: 1.6;">6-month periodization designed for powerlifting meets. Hypertrophy → Strength → Peaking → Competition ready.</p>
+                    </div>
+                    <div>
+                        <h4 style="color: #667eea; margin-bottom: 8px;">Track Everything</h4>
+                        <p style="color: #aaa; line-height: 1.6;">From plate loading to macro tracking. Progressive overload analytics ensure you're always moving forward.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center; color: #888;">
+                <p>💳 Secure payment powered by Stripe</p>
+                <p style="margin-top: 10px;">Cancel anytime. No questions asked.</p>
+            </div>
+        </div>
     </div>
 
+    <!-- Paywall Overlay -->
+    <div class="paywall-overlay" id="paywallOverlay">
+        <div class="paywall-content">
+            <div class="paywall-icon">🔒</div>
+            <h2 style="margin-bottom: 15px;">Premium Feature</h2>
+            <p style="color: #aaa; margin-bottom: 25px;">Upgrade to Elite Tracker to access periodization, nutrition tracking, and advanced analytics.</p>
+            <button class="btn" onclick="switchTab('pricing')" style="margin-right: 10px;">View Plans</button>
+            <button class="btn btn-secondary" onclick="closePaywall()">Go Back</button>
+        </div>
+    </div>
+
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
         // Initialize
         let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
@@ -1079,7 +1304,81 @@
             targetBodyweight: 183,
             macros: { protein: 220, carbs: 350, fats: 70 }
         };
+        let subscription = JSON.parse(localStorage.getItem('subscription')) || {
+            tier: 'free', // free, premium, coaching
+            status: 'active',
+            expiresAt: null
+        };
         let exerciseCounter = 0;
+
+        // Stripe Configuration (you'll replace these with your actual keys)
+        const STRIPE_PUBLISHABLE_KEY = 'pk_test_YOUR_KEY_HERE'; // Replace with your Stripe publishable key
+        const stripe = Stripe(STRIPE_PUBLISHABLE_KEY);
+
+        // Premium features that require subscription
+        const premiumFeatures = ['periodization', 'nutrition', 'graphs'];
+
+        function isPremium() {
+            return subscription.tier === 'premium' || subscription.tier === 'coaching';
+        }
+
+        function checkFeatureAccess(featureName) {
+            if (premiumFeatures.includes(featureName) && !isPremium()) {
+                showPaywall();
+                return false;
+            }
+            return true;
+        }
+
+        function showPaywall() {
+            document.getElementById('paywallOverlay').style.display = 'flex';
+        }
+
+        function closePaywall() {
+            document.getElementById('paywallOverlay').style.display = 'none';
+        }
+
+        // Stripe Checkout Functions
+        async function checkoutPremium() {
+            // For now, simulate payment for demo
+            // In production, this will redirect to Stripe Checkout
+            alert('🚀 Setting up Stripe Checkout...\n\nTo complete integration:\n1. Create Stripe account at stripe.com\n2. Get your API keys\n3. Replace STRIPE_PUBLISHABLE_KEY in the code\n4. Set up product prices in Stripe Dashboard\n\nFor demo: Click OK to simulate premium upgrade');
+
+            // Simulate successful payment
+            subscription.tier = 'premium';
+            subscription.status = 'active';
+            subscription.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+            localStorage.setItem('subscription', JSON.stringify(subscription));
+
+            alert('✅ Welcome to Elite Tracker Premium!\n\nYou now have access to:\n- 6-month periodization\n- Nutrition tracking\n- Advanced analytics\n- Progress graphs\n\nStart exploring your premium features!');
+
+            location.reload();
+        }
+
+        async function checkoutCoaching() {
+            alert('🏋️ IMG Performance Coaching\n\nTo complete integration:\n1. Set up Stripe subscription products\n2. Configure coaching tier pricing\n3. Set up email notifications for form checks\n\nFor demo: Click OK to simulate coaching upgrade');
+
+            // Simulate successful payment
+            subscription.tier = 'coaching';
+            subscription.status = 'active';
+            subscription.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+            localStorage.setItem('subscription', JSON.stringify(subscription));
+
+            alert('✅ Welcome to IMG Performance Coaching!\n\nYou now have:\n- All Elite Tracker features\n- Monthly form check video reviews\n- Personalized program adjustments\n- Direct messaging access\n\nCheck your email for next steps!');
+
+            location.reload();
+        }
+
+        // Update tab labels based on subscription
+        function updatePremiumLabels() {
+            const premiumTabs = document.querySelectorAll('.tab');
+            premiumTabs.forEach(tab => {
+                const tabText = tab.textContent;
+                if (isPremium()) {
+                    tab.textContent = tabText.replace(' 🔒', '');
+                }
+            });
+        }
 
         // Set today's date
         document.getElementById('workoutDate').valueAsDate = new Date();
@@ -1096,11 +1395,19 @@
             updateCalculator();
             updatePeriodization();
             updateNutritionUI();
+            updatePremiumLabels();
 
             // Update calories when macros change
             ['proteinInput', 'carbsInput', 'fatsInput'].forEach(id => {
                 document.getElementById(id).addEventListener('input', calculateCalories);
             });
+
+            // Show subscription status
+            if (isPremium()) {
+                console.log('✅ Premium subscription active until:', subscription.expiresAt);
+            } else {
+                console.log('💡 Upgrade to Premium for advanced features!');
+            }
         };
 
         function updateMeetCountdown() {
@@ -1376,6 +1683,11 @@
         }
 
         function switchTab(tabName) {
+            // Check if trying to access premium feature
+            if (premiumFeatures.includes(tabName) && !checkFeatureAccess(tabName)) {
+                return;
+            }
+
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.classList.remove('active');
             });
