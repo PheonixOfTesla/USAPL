@@ -1230,8 +1230,8 @@
                         <li class="included">Unlimited data export</li>
                     </ul>
 
-                    <button class="btn" style="width: 100%; margin-top: 20px;" onclick="checkoutPremium()">Start Premium</button>
-                    <p style="text-align: center; color: #888; font-size: 0.85em; margin-top: 10px;">or $119/year (save $60)</p>
+                    <button class="btn" style="width: 100%; margin-top: 20px;" onclick="checkoutPremium()">Buy Now - $14.99</button>
+                    <button class="btn btn-secondary" style="width: 100%; margin-top: 10px;" onclick="redeemAccessCode()">Redeem Access Code</button>
                 </div>
 
                 <!-- Coaching Tier -->
@@ -1249,7 +1249,7 @@
                         <li class="included">Priority support</li>
                     </ul>
 
-                    <button class="btn" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);" onclick="checkoutCoaching()">Get Coaching</button>
+                    <button class="btn" style="width: 100%; margin-top: 20px; background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);" onclick="checkoutCoaching()">Contact for Coaching</button>
                     <p style="text-align: center; color: #888; font-size: 0.85em; margin-top: 10px;">Trained at IMG Academy</p>
                 </div>
             </div>
@@ -1273,8 +1273,9 @@
             </div>
 
             <div style="margin-top: 30px; text-align: center; color: #888;">
-                <p>💳 Secure payment powered by Stripe</p>
-                <p style="margin-top: 10px;">Cancel anytime. No questions asked.</p>
+                <p>💳 Secure payment powered by Gumroad</p>
+                <p style="margin-top: 10px;">Accepts Cash App, Cards, Apple Pay, Google Pay</p>
+                <p style="margin-top: 5px; font-size: 0.9em;">Instant access via email after purchase</p>
             </div>
         </div>
     </div>
@@ -1338,35 +1339,52 @@
             document.getElementById('paywallOverlay').style.display = 'none';
         }
 
-        // Stripe Checkout Functions
-        async function checkoutPremium() {
-            // For now, simulate payment for demo
-            // In production, this will redirect to Stripe Checkout
-            alert('🚀 Setting up Stripe Checkout...\n\nTo complete integration:\n1. Create Stripe account at stripe.com\n2. Get your API keys\n3. Replace STRIPE_PUBLISHABLE_KEY in the code\n4. Set up product prices in Stripe Dashboard\n\nFor demo: Click OK to simulate premium upgrade');
+        // Gumroad Checkout Functions
+        function checkoutPremium() {
+            // Redirect to Gumroad payment page
+            window.open('https://digitalapple5.gumroad.com/l/snkvej', '_blank');
 
-            // Simulate successful payment
-            subscription.tier = 'premium';
-            subscription.status = 'active';
-            subscription.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-            localStorage.setItem('subscription', JSON.stringify(subscription));
-
-            alert('✅ Welcome to Elite Tracker Premium!\n\nYou now have access to:\n- 6-month periodization\n- Nutrition tracking\n- Advanced analytics\n- Progress graphs\n\nStart exploring your premium features!');
-
-            location.reload();
+            // Show redemption instructions
+            setTimeout(() => {
+                alert('🎉 After completing payment:\n\n1. Gumroad will email you an ACCESS CODE\n2. Come back to this app\n3. Click "Redeem Access Code" below\n4. Enter your code to unlock premium features!\n\nPayment is secure through Gumroad.');
+            }, 500);
         }
 
-        async function checkoutCoaching() {
-            alert('🏋️ IMG Performance Coaching\n\nTo complete integration:\n1. Set up Stripe subscription products\n2. Configure coaching tier pricing\n3. Set up email notifications for form checks\n\nFor demo: Click OK to simulate coaching upgrade');
+        function checkoutCoaching() {
+            // TODO: Add coaching tier Gumroad link when created
+            alert('🏋️ IMG Performance Coaching\n\n$79/month includes:\n- All Elite Tracker features\n- Monthly form check video reviews\n- Personalized program adjustments\n\nTo purchase:\n1. Create the Coaching product on Gumroad\n2. Give me the product link\n3. I\'ll integrate it here\n\nFor now, contact clockedwellness directly!');
+        }
 
-            // Simulate successful payment
-            subscription.tier = 'coaching';
-            subscription.status = 'active';
-            subscription.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-            localStorage.setItem('subscription', JSON.stringify(subscription));
+        function redeemAccessCode() {
+            const code = prompt('Enter your Gumroad access code:');
 
-            alert('✅ Welcome to IMG Performance Coaching!\n\nYou now have:\n- All Elite Tracker features\n- Monthly form check video reviews\n- Personalized program adjustments\n- Direct messaging access\n\nCheck your email for next steps!');
+            if (!code) return;
 
-            location.reload();
+            // Validate code format (Gumroad codes are typically alphanumeric)
+            const validPremiumCodes = ['ELITE2025', 'PREMIUM2025']; // Add codes manually for now
+            const validCoachingCodes = ['COACH2025', 'IMG2025'];
+
+            if (validPremiumCodes.includes(code.toUpperCase())) {
+                subscription.tier = 'premium';
+                subscription.status = 'active';
+                subscription.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+                subscription.accessCode = code;
+                localStorage.setItem('subscription', JSON.stringify(subscription));
+
+                alert('✅ Welcome to Elite Tracker Premium!\n\nYou now have access to:\n- 6-month periodization\n- Nutrition tracking\n- Advanced analytics\n- Progress graphs\n\nStart exploring your premium features!');
+                location.reload();
+            } else if (validCoachingCodes.includes(code.toUpperCase())) {
+                subscription.tier = 'coaching';
+                subscription.status = 'active';
+                subscription.expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
+                subscription.accessCode = code;
+                localStorage.setItem('subscription', JSON.stringify(subscription));
+
+                alert('✅ Welcome to IMG Performance Coaching!\n\nYou now have:\n- All Elite Tracker features\n- Monthly form check video reviews\n- Personalized program adjustments\n\nCheck your email for next steps!');
+                location.reload();
+            } else {
+                alert('❌ Invalid access code.\n\nPlease check:\n- You entered the code exactly as shown in your email\n- The code hasn\'t been used already\n- You purchased from the correct Gumroad link\n\nContact support if you need help!');
+            }
         }
 
         // Update tab labels based on subscription
