@@ -870,8 +870,8 @@
     <div class="container">
         <header>
             <h1>💪 PowerLifting Logger</h1>
-            <p class="subtitle">Elite Training for USAPL Regionals | Goal: 1500 @ 83kg</p>
-            <div class="meet-countdown" id="meetCountdown">
+            <p class="subtitle" id="headerSubtitle" style="display: none;">Elite Training for USAPL Regionals | Goal: 1500 @ 83kg</p>
+            <div class="meet-countdown" id="meetCountdown" style="display: none;">
                 <div class="countdown-text">--</div>
                 <div class="countdown-label">days until meet day</div>
             </div>
@@ -1493,6 +1493,10 @@
 
         function checkOnboarding() {
             if (!settings || !settings.onboardingComplete) {
+                // Hide header elements during onboarding
+                document.getElementById('headerSubtitle').style.display = 'none';
+                document.getElementById('meetCountdown').style.display = 'none';
+
                 // Show onboarding screen
                 document.querySelectorAll('.tab-content').forEach(content => {
                     content.classList.remove('active');
@@ -1508,6 +1512,13 @@
                 document.getElementById('onboardMeetDate').valueAsDate = defaultMeetDate;
 
                 return false;
+            } else {
+                // Show header elements after onboarding with user's custom data
+                const subtitle = document.getElementById('headerSubtitle');
+                const bodyweightKg = Math.round(settings.targetBodyweight * 0.453592);
+                subtitle.textContent = `Elite Training for USAPL Regionals | Goal: ${settings.targetTotal} @ ${bodyweightKg}kg`;
+                subtitle.style.display = 'block';
+                document.getElementById('meetCountdown').style.display = 'block';
             }
             return true;
         }
