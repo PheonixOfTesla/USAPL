@@ -550,6 +550,186 @@
             color: #fff;
         }
 
+        .plate-calculator {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .plate-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .plate {
+            padding: 12px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            min-width: 50px;
+            text-align: center;
+            border: 2px solid;
+        }
+
+        .plate.p45 { background: #e73827; border-color: #c62e1f; }
+        .plate.p25 { background: #4caf50; border-color: #388e3c; }
+        .plate.p10 { background: #667eea; border-color: #4a5dc9; }
+        .plate.p5 { background: #ffd700; border-color: #ccaa00; color: #000; }
+        .plate.p2-5 { background: #888; border-color: #666; }
+
+        .barbell {
+            width: 80px;
+            height: 12px;
+            background: #aaa;
+            border-radius: 2px;
+        }
+
+        .collar {
+            width: 8px;
+            height: 20px;
+            background: #555;
+            border-radius: 2px;
+        }
+
+        .goal-progress-section {
+            background: #1e1e1e;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .goal-progress-bar {
+            margin-bottom: 25px;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 1.1em;
+        }
+
+        .goal-current {
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .goal-target {
+            color: #888;
+        }
+
+        .progress-bar-container {
+            height: 30px;
+            background: #2d2d2d;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 15px;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .weekly-avg-section {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .weekly-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .weekly-stat {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .weekly-stat-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .weekly-stat-label {
+            color: #aaa;
+            font-size: 0.9em;
+            margin-top: 5px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+
+        .comparison-table th {
+            background: #1e1e1e;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            background: #2d2d2d;
+        }
+
+        .change-positive {
+            color: #4caf50;
+            font-weight: 600;
+        }
+
+        .change-negative {
+            color: #f85032;
+            font-weight: 600;
+        }
+
+        .change-neutral {
+            color: #888;
+        }
+
+        .weight-timeline {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        .timeline-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #444;
+        }
+
+        .timeline-stat:last-child {
+            border-bottom: none;
+        }
+
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
@@ -661,6 +841,15 @@
                 <div class="percentage-grid" id="percentageGrid"></div>
             </div>
 
+            <div class="plate-calculator">
+                <h3 style="margin-bottom: 15px;">Plate Loading Calculator</h3>
+                <div class="form-group" style="max-width: 300px;">
+                    <label>Weight to Load (lbs)</label>
+                    <input type="number" id="plateWeight" step="5" placeholder="315" onchange="calculatePlates()">
+                </div>
+                <div id="plateDisplay"></div>
+            </div>
+
             <div style="margin-top: 20px; padding: 15px; background: #1e1e1e; border-radius: 8px;">
                 <p style="color: #aaa; font-size: 0.95em;">
                     💡 <strong>Tip:</strong> Training max should be 90-95% of your true 1RM. This allows for progressive overload while maintaining good form.
@@ -750,6 +939,16 @@
                 </div>
             </div>
 
+            <div class="weekly-avg-section">
+                <h3 style="margin-bottom: 15px;">7-Day Averages</h3>
+                <div class="weekly-stats-grid" id="weeklyNutritionStats"></div>
+            </div>
+
+            <div class="weight-timeline">
+                <h3 style="margin-bottom: 15px;">Weight Goal Calculator</h3>
+                <div id="weightGoalCalc"></div>
+            </div>
+
             <div style="margin-top: 20px; padding: 15px; background: #1e1e1e; border-radius: 8px;">
                 <h4 style="margin-bottom: 10px;">Recommended Macros for 83kg (183 lbs)</h4>
                 <p style="color: #aaa; line-height: 1.6;">
@@ -807,6 +1006,11 @@
         <div id="stats" class="tab-content">
             <h2 style="margin-bottom: 20px;">Stats & Progress</h2>
 
+            <div class="goal-progress-section">
+                <h3 style="margin-bottom: 20px;">Goal Progress: 1500 lbs Total @ 83kg</h3>
+                <div id="goalProgressBars"></div>
+            </div>
+
             <div class="stats-grid">
                 <div class="stat-card">
                     <div class="stat-value" id="totalWorkouts">0</div>
@@ -832,6 +1036,24 @@
 
             <h3 style="margin: 30px 0 20px 0;">Personal Records</h3>
             <div id="prContainer"></div>
+
+            <div style="margin-top: 30px;">
+                <h3 style="margin-bottom: 20px;">Week-Over-Week Comparison</h3>
+                <div style="background: #1e1e1e; padding: 20px; border-radius: 12px;">
+                    <table class="comparison-table" id="weekComparison">
+                        <thead>
+                            <tr>
+                                <th>Exercise</th>
+                                <th>This Week</th>
+                                <th>Last Week</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody id="comparisonTableBody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 
             <div class="export-section">
                 <h3 style="margin-bottom: 20px;">Export Data</h3>
@@ -995,6 +1217,72 @@
             }).join('');
         }
 
+        function calculatePlates() {
+            const totalWeight = parseFloat(document.getElementById('plateWeight').value);
+            if (!totalWeight) {
+                document.getElementById('plateDisplay').innerHTML = '';
+                return;
+            }
+
+            const barWeight = 45; // Standard barbell
+            const weightPerSide = (totalWeight - barWeight) / 2;
+
+            if (weightPerSide < 0) {
+                document.getElementById('plateDisplay').innerHTML = '<p style="color: #f85032; margin-top: 15px;">Weight must be at least 45 lbs (bar only)</p>';
+                return;
+            }
+
+            const availablePlates = [
+                { weight: 45, count: 4, class: 'p45' },
+                { weight: 25, count: 4, class: 'p25' },
+                { weight: 10, count: 4, class: 'p10' },
+                { weight: 5, count: 4, class: 'p5' },
+                { weight: 2.5, count: 4, class: 'p2-5' }
+            ];
+
+            let remaining = weightPerSide;
+            const platesNeeded = [];
+
+            for (const plate of availablePlates) {
+                const count = Math.min(Math.floor(remaining / plate.weight), plate.count);
+                if (count > 0) {
+                    platesNeeded.push({ ...plate, needed: count });
+                    remaining -= count * plate.weight;
+                }
+            }
+
+            if (remaining > 0) {
+                document.getElementById('plateDisplay').innerHTML = `
+                    <p style="color: #ffd700; margin-top: 15px;">⚠️ Closest loading: ${(weightPerSide - remaining).toFixed(1)} lbs per side (Total: ${barWeight + (weightPerSide - remaining) * 2} lbs)</p>
+                `;
+            } else {
+                document.getElementById('plateDisplay').innerHTML = '<p style="color: #4caf50; margin-top: 10px; margin-bottom: 10px;">✓ Exact weight achievable</p>';
+            }
+
+            let plateHTML = '<div class="plate-display">';
+            plateHTML += '<div class="collar"></div>';
+
+            for (const plate of platesNeeded) {
+                for (let i = 0; i < plate.needed; i++) {
+                    plateHTML += `<div class="plate ${plate.class}">${plate.weight}</div>`;
+                }
+            }
+
+            plateHTML += '<div class="barbell"></div>';
+
+            for (const plate of [...platesNeeded].reverse()) {
+                for (let i = 0; i < plate.needed; i++) {
+                    plateHTML += `<div class="plate ${plate.class}">${plate.weight}</div>`;
+                }
+            }
+
+            plateHTML += '<div class="collar"></div>';
+            plateHTML += '</div>';
+            plateHTML += `<p style="text-align: center; margin-top: 15px; color: #aaa;">Per Side: ${weightPerSide.toFixed(1)} lbs | Total: ${totalWeight} lbs (including 45 lb bar)</p>`;
+
+            document.getElementById('plateDisplay').innerHTML += plateHTML;
+        }
+
         function updatePeriodization() {
             const plan = [
                 {
@@ -1102,7 +1390,11 @@
             if (tabName === 'calendar') updateCalendar();
             if (tabName === 'stats') updateStats();
             if (tabName === 'graphs') updateGraphs();
-            if (tabName === 'nutrition') updateNutritionUI();
+            if (tabName === 'nutrition') {
+                updateNutritionUI();
+                updateWeeklyNutritionAverages();
+                updateWeightGoalCalculator();
+            }
             if (tabName === 'calculator') updateCalculator();
             if (tabName === 'periodization') updatePeriodization();
         }
@@ -1351,7 +1643,246 @@
             container.innerHTML = calendarHTML;
         }
 
+        function updateGoalProgress() {
+            const exercisePRs = {};
+            workouts.forEach(workout => {
+                workout.exercises.forEach(exercise => {
+                    const estimated1RM = exercise.weight * (1 + exercise.reps / 30);
+                    if (!exercisePRs[exercise.name] || estimated1RM > exercisePRs[exercise.name]) {
+                        exercisePRs[exercise.name] = estimated1RM;
+                    }
+                });
+            });
+
+            const currentSquat = exercisePRs['Squat'] || 0;
+            const currentBench = exercisePRs['Bench Press'] || 0;
+            const currentDeadlift = exercisePRs['Deadlift'] || 0;
+            const currentTotal = currentSquat + currentBench + currentDeadlift;
+
+            const goals = [
+                { name: 'Squat', current: currentSquat, target: settings.targetSquat },
+                { name: 'Bench Press', current: currentBench, target: settings.targetBench },
+                { name: 'Deadlift', current: currentDeadlift, target: settings.targetDeadlift },
+                { name: 'Total', current: currentTotal, target: settings.targetTotal }
+            ];
+
+            const container = document.getElementById('goalProgressBars');
+            container.innerHTML = goals.map(goal => {
+                const percentage = Math.min((goal.current / goal.target) * 100, 100);
+                const remaining = Math.max(goal.target - goal.current, 0);
+                return `
+                    <div class="goal-progress-bar">
+                        <div class="goal-header">
+                            <span style="font-weight: 700;">${goal.name}</span>
+                            <span>
+                                <span class="goal-current">${Math.round(goal.current)} lbs</span>
+                                <span> / </span>
+                                <span class="goal-target">${goal.target} lbs</span>
+                            </span>
+                        </div>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: ${percentage}%">
+                                ${percentage.toFixed(1)}%
+                            </div>
+                        </div>
+                        <p style="text-align: right; margin-top: 5px; color: ${remaining > 0 ? '#f85032' : '#4caf50'}; font-size: 0.9em;">
+                            ${remaining > 0 ? `${remaining.toFixed(1)} lbs to go` : 'Goal achieved! 🎉'}
+                        </p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateWeeklyNutritionAverages() {
+            const last7Days = nutritionLogs.slice(-7);
+
+            if (last7Days.length === 0) {
+                document.getElementById('weeklyNutritionStats').innerHTML = '<p style="color: #666;">No nutrition data for the past 7 days</p>';
+                return;
+            }
+
+            const avgProtein = (last7Days.reduce((sum, log) => sum + log.protein, 0) / last7Days.length).toFixed(1);
+            const avgCarbs = (last7Days.reduce((sum, log) => sum + log.carbs, 0) / last7Days.length).toFixed(1);
+            const avgFats = (last7Days.reduce((sum, log) => sum + log.fats, 0) / last7Days.length).toFixed(1);
+            const avgCalories = Math.round(last7Days.reduce((sum, log) => sum + log.calories, 0) / last7Days.length);
+            const avgWeight = (last7Days.reduce((sum, log) => sum + log.weight, 0) / last7Days.length).toFixed(1);
+
+            document.getElementById('weeklyNutritionStats').innerHTML = `
+                <div class="weekly-stat">
+                    <div class="weekly-stat-value">${avgProtein}g</div>
+                    <div class="weekly-stat-label">Avg Protein</div>
+                </div>
+                <div class="weekly-stat">
+                    <div class="weekly-stat-value">${avgCarbs}g</div>
+                    <div class="weekly-stat-label">Avg Carbs</div>
+                </div>
+                <div class="weekly-stat">
+                    <div class="weekly-stat-value">${avgFats}g</div>
+                    <div class="weekly-stat-label">Avg Fats</div>
+                </div>
+                <div class="weekly-stat">
+                    <div class="weekly-stat-value">${avgCalories}</div>
+                    <div class="weekly-stat-label">Avg Calories</div>
+                </div>
+                <div class="weekly-stat">
+                    <div class="weekly-stat-value">${avgWeight} lbs</div>
+                    <div class="weekly-stat-label">Avg Weight</div>
+                </div>
+            `;
+        }
+
+        function updateWeightGoalCalculator() {
+            if (nutritionLogs.length < 7) {
+                document.getElementById('weightGoalCalc').innerHTML = '<p style="color: #666;">Need at least 7 days of data to calculate weight goal timeline</p>';
+                return;
+            }
+
+            const recentLogs = nutritionLogs.slice(-14);
+            const firstWeight = recentLogs[0].weight;
+            const lastWeight = recentLogs[recentLogs.length - 1].weight;
+            const daysTracked = recentLogs.length;
+            const weightChange = lastWeight - firstWeight;
+            const weeklyRate = (weightChange / daysTracked) * 7;
+
+            const currentWeight = nutritionLogs[nutritionLogs.length - 1].weight;
+            const targetWeight = settings.targetBodyweight;
+            const weightToLose = currentWeight - targetWeight;
+
+            let daysToGoal = 0;
+            let timeline = 'maintaining weight';
+
+            if (Math.abs(weeklyRate) > 0.1) {
+                daysToGoal = Math.abs(weightToLose / (weeklyRate / 7));
+                timeline = daysToGoal > 0 ? `${Math.round(daysToGoal)} days (${(daysToGoal / 7).toFixed(1)} weeks)` : 'Goal achieved!';
+            }
+
+            const targetDate = new Date();
+            targetDate.setDate(targetDate.getDate() + daysToGoal);
+
+            document.getElementById('weightGoalCalc').innerHTML = `
+                <div class="timeline-stat">
+                    <span style="color: #aaa;">Current Weight:</span>
+                    <span style="font-weight: 700; color: #667eea;">${currentWeight.toFixed(1)} lbs</span>
+                </div>
+                <div class="timeline-stat">
+                    <span style="color: #aaa;">Target Weight:</span>
+                    <span style="font-weight: 700; color: #667eea;">${targetWeight} lbs</span>
+                </div>
+                <div class="timeline-stat">
+                    <span style="color: #aaa;">Weight to Lose/Gain:</span>
+                    <span style="font-weight: 700; color: ${weightToLose > 0 ? '#f85032' : '#4caf50'};">${weightToLose > 0 ? '-' : '+'}${Math.abs(weightToLose).toFixed(1)} lbs</span>
+                </div>
+                <div class="timeline-stat">
+                    <span style="color: #aaa;">Weekly Rate (14 days):</span>
+                    <span style="font-weight: 700; color: ${weeklyRate < 0 ? '#f85032' : '#4caf50'};">${weeklyRate > 0 ? '+' : ''}${weeklyRate.toFixed(2)} lbs/week</span>
+                </div>
+                <div class="timeline-stat">
+                    <span style="color: #aaa;">Days to Goal Weight:</span>
+                    <span style="font-weight: 700; color: #ffd700;">${timeline}</span>
+                </div>
+                ${daysToGoal > 0 ? `
+                <div class="timeline-stat">
+                    <span style="color: #aaa;">Estimated Goal Date:</span>
+                    <span style="font-weight: 700; color: #667eea;">${targetDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                </div>
+                ` : ''}
+            `;
+        }
+
+        function updateWeekComparison() {
+            const today = new Date();
+            const thisWeekStart = new Date(today);
+            thisWeekStart.setDate(today.getDate() - today.getDay());
+            thisWeekStart.setHours(0, 0, 0, 0);
+
+            const lastWeekStart = new Date(thisWeekStart);
+            lastWeekStart.setDate(lastWeekStart.getDate() - 7);
+
+            const thisWeekWorkouts = workouts.filter(w => {
+                const wDate = new Date(w.date);
+                return wDate >= thisWeekStart;
+            });
+
+            const lastWeekWorkouts = workouts.filter(w => {
+                const wDate = new Date(w.date);
+                return wDate >= lastWeekStart && wDate < thisWeekStart;
+            });
+
+            const exerciseComparison = {};
+
+            // Get this week's best lifts
+            thisWeekWorkouts.forEach(workout => {
+                workout.exercises.forEach(ex => {
+                    const volume = ex.sets * ex.reps * ex.weight;
+                    const e1rm = ex.weight * (1 + ex.reps / 30);
+
+                    if (!exerciseComparison[ex.name]) {
+                        exerciseComparison[ex.name] = { thisWeek: null, lastWeek: null };
+                    }
+
+                    if (!exerciseComparison[ex.name].thisWeek || e1rm > exerciseComparison[ex.name].thisWeek.e1rm) {
+                        exerciseComparison[ex.name].thisWeek = { weight: ex.weight, reps: ex.reps, volume, e1rm };
+                    }
+                });
+            });
+
+            // Get last week's best lifts
+            lastWeekWorkouts.forEach(workout => {
+                workout.exercises.forEach(ex => {
+                    const volume = ex.sets * ex.reps * ex.weight;
+                    const e1rm = ex.weight * (1 + ex.reps / 30);
+
+                    if (!exerciseComparison[ex.name]) {
+                        exerciseComparison[ex.name] = { thisWeek: null, lastWeek: null };
+                    }
+
+                    if (!exerciseComparison[ex.name].lastWeek || e1rm > exerciseComparison[ex.name].lastWeek.e1rm) {
+                        exerciseComparison[ex.name].lastWeek = { weight: ex.weight, reps: ex.reps, volume, e1rm };
+                    }
+                });
+            });
+
+            const tbody = document.getElementById('comparisonTableBody');
+
+            if (Object.keys(exerciseComparison).length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: #666;">No workout data to compare</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = Object.entries(exerciseComparison).map(([name, data]) => {
+                const thisWeek = data.thisWeek ? `${data.thisWeek.weight} × ${data.thisWeek.reps}` : '-';
+                const lastWeek = data.lastWeek ? `${data.lastWeek.weight} × ${data.lastWeek.reps}` : '-';
+
+                let change = '-';
+                let changeClass = 'change-neutral';
+
+                if (data.thisWeek && data.lastWeek) {
+                    const diff = data.thisWeek.e1rm - data.lastWeek.e1rm;
+                    if (diff > 0) {
+                        change = `+${diff.toFixed(1)} lbs`;
+                        changeClass = 'change-positive';
+                    } else if (diff < 0) {
+                        change = `${diff.toFixed(1)} lbs`;
+                        changeClass = 'change-negative';
+                    } else {
+                        change = 'Same';
+                    }
+                }
+
+                return `
+                    <tr>
+                        <td style="font-weight: 600;">${name}</td>
+                        <td>${thisWeek}</td>
+                        <td>${lastWeek}</td>
+                        <td class="${changeClass}">${change}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
         function updateStats() {
+            updateGoalProgress();
+            updateWeekComparison();
             document.getElementById('totalWorkouts').textContent = workouts.length;
 
             let streak = 0;
