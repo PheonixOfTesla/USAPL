@@ -1183,6 +1183,63 @@
             </div>
         </div>
 
+        <!-- Onboarding Tab -->
+        <div id="onboarding" class="tab-content">
+            <h2 style="margin-bottom: 20px; text-align: center;">Welcome to PowerLifting Logger! 💪</h2>
+            <p style="text-align: center; color: #aaa; margin-bottom: 40px;">Let's set up your training profile</p>
+
+            <div style="max-width: 600px; margin: 0 auto;">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Meet Date (when is your competition?)</label>
+                        <input type="date" id="onboardMeetDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Current Bodyweight (lbs)</label>
+                        <input type="number" id="onboardBodyweight" step="0.1" placeholder="183.0" required>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 20px 0;">Your Goals</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Goal Total (lbs)</label>
+                        <input type="number" id="onboardTotal" placeholder="1500" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Goal Squat (lbs)</label>
+                        <input type="number" id="onboardSquat" placeholder="550" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Goal Bench (lbs)</label>
+                        <input type="number" id="onboardBench" placeholder="365" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Goal Deadlift (lbs)</label>
+                        <input type="number" id="onboardDeadlift" placeholder="585" required>
+                    </div>
+                </div>
+
+                <h3 style="margin: 30px 0 20px 0;">Nutrition Targets</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Daily Protein (g)</label>
+                        <input type="number" id="onboardProtein" placeholder="220" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Daily Carbs (g)</label>
+                        <input type="number" id="onboardCarbs" placeholder="350" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Daily Fats (g)</label>
+                        <input type="number" id="onboardFats" placeholder="70" required>
+                    </div>
+                </div>
+
+                <button class="btn" style="width: 100%; margin-top: 30px;" onclick="completeOnboarding()">Start Training!</button>
+            </div>
+        </div>
+
         <!-- Pricing Tab -->
         <div id="pricing" class="tab-content">
             <h2 style="margin-bottom: 10px;">Upgrade Your Training</h2>
@@ -1287,7 +1344,7 @@
             <div class="paywall-icon">🔒</div>
             <h2 style="margin-bottom: 15px;">Premium Feature</h2>
             <p style="color: #aaa; margin-bottom: 25px;">Upgrade to Elite Tracker to access periodization, nutrition tracking, and advanced analytics.</p>
-            <button class="btn" onclick="switchTab('pricing')" style="margin-right: 10px;">View Plans</button>
+            <button class="btn" onclick="closePaywall(); setTimeout(() => switchTab('pricing'), 100);" style="margin-right: 10px;">View Plans</button>
             <button class="btn btn-secondary" onclick="closePaywall()">Go Back</button>
         </div>
     </div>
@@ -1297,15 +1354,7 @@
         // Initialize
         let workouts = JSON.parse(localStorage.getItem('workouts')) || [];
         let nutritionLogs = JSON.parse(localStorage.getItem('nutritionLogs')) || [];
-        let settings = JSON.parse(localStorage.getItem('settings')) || {
-            meetDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-            targetTotal: 1500,
-            targetSquat: 550,
-            targetBench: 365,
-            targetDeadlift: 585,
-            targetBodyweight: 183,
-            macros: { protein: 220, carbs: 350, fats: 70 }
-        };
+        let settings = JSON.parse(localStorage.getItem('settings')) || null;
         let subscription = JSON.parse(localStorage.getItem('subscription')) || {
             tier: 'free', // free, premium, coaching
             status: 'active',
@@ -1408,8 +1457,68 @@
         document.getElementById('workoutDate').valueAsDate = new Date();
         document.getElementById('nutritionDate').valueAsDate = new Date();
 
+        // Onboarding Functions
+        function completeOnboarding() {
+            const meetDate = document.getElementById('onboardMeetDate').value;
+            const bodyweight = parseFloat(document.getElementById('onboardBodyweight').value);
+            const total = parseInt(document.getElementById('onboardTotal').value);
+            const squat = parseInt(document.getElementById('onboardSquat').value);
+            const bench = parseInt(document.getElementById('onboardBench').value);
+            const deadlift = parseInt(document.getElementById('onboardDeadlift').value);
+            const protein = parseInt(document.getElementById('onboardProtein').value);
+            const carbs = parseInt(document.getElementById('onboardCarbs').value);
+            const fats = parseInt(document.getElementById('onboardFats').value);
+
+            if (!meetDate || !bodyweight || !total || !squat || !bench || !deadlift) {
+                alert('Please fill in all required fields!');
+                return;
+            }
+
+            settings = {
+                meetDate: meetDate,
+                targetTotal: total,
+                targetSquat: squat,
+                targetBench: bench,
+                targetDeadlift: deadlift,
+                targetBodyweight: bodyweight,
+                macros: { protein: protein || 220, carbs: carbs || 350, fats: fats || 70 },
+                onboardingComplete: true
+            };
+
+            localStorage.setItem('settings', JSON.stringify(settings));
+
+            alert('🎉 Profile created! Let\'s start training toward that ' + total + ' total!');
+            location.reload();
+        }
+
+        function checkOnboarding() {
+            if (!settings || !settings.onboardingComplete) {
+                // Show onboarding screen
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.style.display = 'none'; // Hide tabs during onboarding
+                });
+                document.getElementById('onboarding').classList.add('active');
+
+                // Set default meet date to 6 months from now
+                const defaultMeetDate = new Date();
+                defaultMeetDate.setMonth(defaultMeetDate.getMonth() + 6);
+                document.getElementById('onboardMeetDate').valueAsDate = defaultMeetDate;
+
+                return false;
+            }
+            return true;
+        }
+
         // Add first exercise on load
         window.onload = function() {
+            // Check if user needs onboarding
+            if (!checkOnboarding()) {
+                return; // Stop here if onboarding needed
+            }
+
             addExercise();
             updateHistory();
             updateCalendar();
